@@ -60,7 +60,7 @@ const onCategoryChange = () => {
 
     <div class="right">
         <router-link to="/">Home</router-link>
-        <router-link to="/favorites">Favourites</router-link>
+        <router-link to="/favorites">Favorites</router-link>
     </div>
 
   </nav>

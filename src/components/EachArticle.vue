@@ -1,12 +1,22 @@
 <script setup>
 import { defineProps } from 'vue';
+import { handleFavorites } from '../composables/handleFavorites';
 
+const { addFavorite, removeFavorite, isFavorite } = handleFavorites();
 const props = defineProps({
   article: {
     type: Object,
     required: true
   }
 });
+
+const toggleFavorite = () => {
+  if (isFavorite(props.article)) {
+    removeFavorite(props.article);
+  } else {
+    addFavorite(props.article);
+  }
+};
 </script>
 
 <template>
@@ -20,7 +30,9 @@ const props = defineProps({
       </div>
       <div class="actions">
         <a :href="article.url" target="_blank" class="read-more">Read more</a>
-        <button class="favourite-btn">Add to Favourites</button>
+        <button class="favourite-btn" @click="toggleFavorite">
+        {{ isFavorite(article) ? 'Remove from Favorites' : 'Add to Favorites' }}
+        </button>
       </div>
     </div>
   </div>
