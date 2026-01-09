@@ -1,11 +1,12 @@
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 
-const searchQuery = ref('');
-const selectedCategory = ref('');
+const searchQuery = ref(route.query.q || '');
+const selectedCategory = ref(route.query.category || '');
 
 const categories = [
   'business',
@@ -18,22 +19,25 @@ const categories = [
 ];
 
 const onSearch = () => {
-  router.push({ 
-    name: 'Home', 
-    query: { 
-        q: searchQuery.value, 
-        category: selectedCategory.value 
-    } 
+    const query = {};
+    if (searchQuery.value.trim()) query.q = searchQuery.value.trim();
+    if (selectedCategory.value) query.category = selectedCategory.value;
+    router.push({ 
+        path: '/', 
+        query
     });
   searchQuery.value = '';
 };
 
 const onCategoryChange = () => {
-  router.push({ 
-    name: 'Home', 
-    query: { 
-        category: selectedCategory.value 
-    } 
+    const query = {};
+    if (selectedCategory.value) query.category = selectedCategory.value;
+    if (searchQuery.value.trim()) query.q = searchQuery.value.trim();
+    router.push({ 
+        path: '/', 
+        query: { 
+            category: selectedCategory.value 
+        } 
     });
 };
 </script>
